@@ -1,10 +1,10 @@
-import { ProductImageUI, ProductStatus, StockStatus } from '@/lib/types';
+import { ProductImageUI, ProductStatus, StockStatus } from "@/lib/types";
 
 /**
  * Tari Store Owner Contact Information
  * Single constant for owner phone & WhatsApp contact
  */
-export const OWNER_PHONE_NUMBER = "+254700000000"; // PLACEHOLDER: format with international code
+export const OWNER_PHONE_NUMBER = "+254712686412"; // PLACEHOLDER: format with international code
 
 export interface ProductDetails {
   id?: string;
@@ -15,7 +15,7 @@ export interface ProductDetails {
   dimensions: {
     widthCm: number;
     dropCm: number;
-    headerStyle: 'eyelet' | 'pencil-pleat';
+    headerStyle: "eyelet" | "pencil-pleat";
   };
   lightTransmission: number;
   lightTransmissionLabel?: string;
@@ -39,9 +39,15 @@ export interface ProductDetails {
  * Helper to construct WhatsApp inquiry link with URL-encoded message.
  * Keeps order buttons active whatever the stock status (e.g. for restocking inquiries).
  */
-export function getWhatsAppInquiryUrl(product: ProductDetails, phoneNumber: string = OWNER_PHONE_NUMBER): string {
-  const cleanNumber = phoneNumber.replace(/[^0-9]/g, '');
-  const stockNote = product.stockStatus === 'out_of_stock' ? ' (Note: Marked currently out of stock)' : '';
+export function getWhatsAppInquiryUrl(
+  product: ProductDetails,
+  phoneNumber: string = OWNER_PHONE_NUMBER,
+): string {
+  const cleanNumber = phoneNumber.replace(/[^0-9]/g, "");
+  const stockNote =
+    product.stockStatus === "out_of_stock"
+      ? " (Note: Marked currently out of stock)"
+      : "";
   const message = `Hello Tari, I am inquiring about the ready-made curtain:\n- Product: ${product.name}\n- SKU: ${product.sku}\n- Fixed Size: ${product.dimensions.widthCm}cm width × ${product.dimensions.dropCm}cm drop\n- Price: KES ${product.priceKES.toLocaleString()}${stockNote}\nIs this currently available in stock for nationwide delivery?`;
   return `https://wa.me/${cleanNumber}?text=${encodeURIComponent(message)}`;
 }
@@ -49,7 +55,9 @@ export function getWhatsAppInquiryUrl(product: ProductDetails, phoneNumber: stri
 /**
  * Helper to construct telephone Call link
  */
-export function getTelCallUrl(phoneNumber: string = OWNER_PHONE_NUMBER): string {
+export function getTelCallUrl(
+  phoneNumber: string = OWNER_PHONE_NUMBER,
+): string {
   return `tel:${phoneNumber}`;
 }
 
